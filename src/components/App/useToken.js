@@ -1,0 +1,30 @@
+import { useState } from 'react';
+
+export default function useToken() {
+
+  const getToken = () => {
+
+    //Using localStorage to Save Data Across Windows
+    //Unlike sessionStorage, localStorage will save data even after the session ends.
+    //const tokenString = sessionStorage.getItem('token');
+    const tokenString = localStorage.getItem('token');
+
+    const userToken = JSON.parse(tokenString);
+    return userToken?.token
+  };
+
+  const [token, setToken] = useState(getToken());
+
+  const saveToken = userToken => {
+    
+    //sessionStorage.setItem('token', JSON.stringify(userToken));
+    localStorage.setItem('token', JSON.stringify(userToken));
+
+    setToken(userToken.token);
+  };
+
+  return {
+    setToken: saveToken,
+    token
+  }
+}
